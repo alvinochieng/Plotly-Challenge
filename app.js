@@ -6,6 +6,7 @@ function createchart(id) {
         var samples = data.samples.filter(row => row.id.toString() === id)[0];
         console.log(samples);
         
+        // getting only the top 10 values and reversing them.
         var samplevalues = samples.sample_values.slice(0, 10).reverse();
         
         var otuid = (samples.otu_ids.slice(0, 10)).reverse();
@@ -62,7 +63,7 @@ function createchart(id) {
 
         var layout2 = {
             xaxis: {
-                title: "Bubble Chart"
+                title: "OTU ID"
             },
             height: 600,
             width: 800
@@ -84,33 +85,38 @@ function selectinfo(id) {
 
         var filtered = metadata.filter(row => row.id.toString() === id)[0];
 
+        // selecting the panel to input the demographic info
         var demo = d3.select("#sample-metadata");
 
+        // refresh the panel when new id is selected
         demo.html("");
 
+        // select the data from the ID and append the information
         Object.entries(filtered).forEach((key) => {
             demo.append("h5").text(key[0] + ": " + key[1] + "\n");
         });
     });
 }
 
-function newopt(id) {
+// creating the function for the new data selected
+function optionChanged(id) {
     createchart(id);
     selectinfo(id);
 }
 
+// creating the default function
 function init() {
 
     var selected = d3.select("#selDataset");
 
     d3.json("data/samples.json").then((importeddata) => {
-        // console.log(importeddata)
 
         importeddata.names.forEach(function(info) {
             selected.append("option").text(info).property("value");
 
         });
 
+        // call the functions so the data can be displayed on the page
         createchart(importeddata.names[0]);
         selectinfo(importeddata.names[0]);
     });
