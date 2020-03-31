@@ -3,6 +3,9 @@ function createchart(id) {
     d3.json("data/samples.json").then((data) => {
         console.log(data);
         
+        // var wfreq = data.metadata.map(row => row.wfreq);
+        // console.log(`Washing Frequency: ${wfreq}`)
+        
         var samples = data.samples.filter(row => row.id.toString() === id)[0];
         console.log(samples);
         
@@ -71,6 +74,40 @@ function createchart(id) {
         var plotdata1 = [trace2];
 
         Plotly.newPlot("bubble", plotdata1, layout2);
+
+        // Gauge Chart
+        var trace3 = {
+              domain: { x: [0, 1], y: [0, 1] },
+              value: parseFloat(wfreq),
+              title: { text: "Scrubs Per Week" },
+              type: "indicator",
+              mode: "gauge+number",
+              gauge: {
+                axis: { range: [null, 9] },
+                steps: [
+                  { range: [0, 1], color: "red" },
+                  { range: [1, 2], color: "orange" },
+                  { range: [2, 3], color: "yellow" },
+                  { range: [3, 4], color: "green" },
+                  { range: [4, 5], color: "blue" },
+                  { range: [5, 6], color: "indigo" },
+                  { range: [6, 7], color: "violet" },
+                  { range: [7, 8], color: "gray" },
+                  { range: [8, 9], color: "lightblue" }
+                  
+                ],
+              }
+            };
+            
+            var plotdata2 = [trace3];
+            
+            var layout3= { 
+              width: 600, height: 450, margin: { t: 0, b: 0 },
+              paper_bgcolor: "lavender",
+              font: { color: "darkblue", family: "Algerian" }
+         }
+
+        Plotly.newPlot("gauge", plotdata2, layout3);
 
     });
 }
