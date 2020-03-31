@@ -3,8 +3,8 @@ function createchart(id) {
     d3.json("data/samples.json").then((data) => {
         console.log(data);
         
-        // var wfreq = data.metadata.map(row => row.wfreq);
-        // console.log(`Washing Frequency: ${wfreq}`)
+        var wfreq = data.metadata.map(row => row.wfreq);
+        console.log(`Washing Frequency: ${wfreq}`)
         
         var samples = data.samples.filter(row => row.id.toString() === id)[0];
         console.log(samples);
@@ -105,7 +105,7 @@ function createchart(id) {
               width: 600, height: 450, margin: { t: 0, b: 0 },
               paper_bgcolor: "lavender",
               font: { color: "darkblue", family: "Algerian" }
-         }
+         };
 
         Plotly.newPlot("gauge", plotdata2, layout3);
 
